@@ -41,8 +41,8 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        jumpForce = 7f;
-        
+        jumpForce = 5f;
+        jump.performed += onJumpPerformed;
     }
 
     void Update()
@@ -64,21 +64,38 @@ public class PlayerController : MonoBehaviour
 
         //GroundCheck & Jump Logic
         CheckGround();
-        if(grounded){
-            jumpsRemaining = 2;
-            Debug.Log("grounded");
-            }
-
-        if (jump.triggered && (jumpsRemaining > 0))
+        if (grounded)
         {
+            jumpsRemaining = 1;
+            Debug.Log("grounded");
+        }
+
+        /*
+        if (jump.performed && (jumpsRemaining > 0))
+        {
+            Debug.Log("Entered Jump: JR=" + jumpsRemaining + " jumpForce=" + jumpForce);
             --jumpsRemaining;
             rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
             jumpTriggered = false;
-            
+
         }
+        */
     }
     
+    void onJumpPerformed(InputAction.CallbackContext context)
+    {
+        if(jumpsRemaining > 0)
+        {
+            Debug.Log("Entered Jump: JR=" + jumpsRemaining + " jumpForce=" + jumpForce);
+            --jumpsRemaining;
+            rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
+        }
+    }
 
+    void OnDestroy()
+    {
+        jump.performed -= onJumpPerformed;
+    }
 
     //GroundCheck, Citation Youtube Vid:
     void CheckGround()
