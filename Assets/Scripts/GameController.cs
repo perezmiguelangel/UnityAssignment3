@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 
     //Using custom time to control flow, mainly for pausing 
     public float gameTime { get; set; }
+    public int level;
     
     void Awake()
     {
@@ -32,6 +33,13 @@ public class GameController : MonoBehaviour
     void Update()
     {
 
+    }
+
+
+    //Scene Control
+    public void LoadScene(string str)
+    {
+        SceneManager.LoadScene(str);
     }
 
     //Clear functions to manage gameTime

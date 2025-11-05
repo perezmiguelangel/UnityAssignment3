@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        jumpForce = 5f;
+        jumpForce = 6f;
         jump.performed += onJumpPerformed;
     }
 
@@ -67,31 +67,25 @@ public class PlayerController : MonoBehaviour
         if (grounded)
         {
             jumpsRemaining = 1;
-            Debug.Log("grounded");
+           // Debug.Log("grounded");
         }
 
-        /*
-        if (jump.performed && (jumpsRemaining > 0))
-        {
-            Debug.Log("Entered Jump: JR=" + jumpsRemaining + " jumpForce=" + jumpForce);
-            --jumpsRemaining;
-            rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
-            jumpTriggered = false;
-
-        }
-        */
     }
     
+    //Function handles jump input action
     void onJumpPerformed(InputAction.CallbackContext context)
     {
         if(jumpsRemaining > 0)
         {
             Debug.Log("Entered Jump: JR=" + jumpsRemaining + " jumpForce=" + jumpForce);
             --jumpsRemaining;
+            //Resetting Velocity to add better feeling second jump
+            rb.linearVelocityY = 0;
             rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
         }
     }
 
+    //Handles event subscription, good practice
     void OnDestroy()
     {
         jump.performed -= onJumpPerformed;
