@@ -18,13 +18,15 @@ public class PlayerController : MonoBehaviour
     private float moveX;
     private float moveY;
     private int jumpsRemaining;
-    private float jumpForce;
+    public float jumpForce;
     private bool jumpTriggered;
     private bool grounded;
     public BoxCollider2D groundCheck;
     public LayerMask groundMask;
     public SpriteRenderer spriteRenderer;
     public Animator animator;
+    public BoxCollider2D swordCollider;
+    
 
     
 
@@ -46,7 +48,6 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        jumpForce = 6f;
         jump.performed += onJumpPerformed;
         attack.performed += onAttackPerformed;
     }
@@ -61,14 +62,16 @@ public class PlayerController : MonoBehaviour
 
         if (moveX > 0)
         {
-            //spriteRenderer.flipX = false;
-            transform.localScale = new Vector3(1, 1, 1);
+            spriteRenderer.flipX = false;
+            //transform.localScale = new Vector3(1, 1, 1);
+            
             animator.SetFloat("playerSpeed", moveX);
         }
         else if (moveX < 0)
         {
-            //spriteRenderer.flipX = true;
-            transform.localScale = new Vector3(-1, 1, 1);
+            spriteRenderer.flipX = true;
+            //transform.localScale = new Vector3(-1, 1, 1);
+            
             animator.SetFloat("playerSpeed", Mathf.Abs(moveX));
         }
         else
@@ -94,6 +97,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
     //Function handles jump input action
     void onJumpPerformed(InputAction.CallbackContext context)
     {
@@ -110,9 +114,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Coroutine called since each needs a diff return type, needed to handle collider logic
     void onAttackPerformed(InputAction.CallbackContext context)
     {
+        StartCoroutine(Attack());
+    }
+
+    IEnumerator Attack()
+    {
         animator.SetTrigger("attackTrigger");
+        swordCollider.enabled = true;
+        yield return new WaitForSecondsRealtime(0.417f);
+        swordCollider.enabled = false;
     }
 
     //To handle collisions

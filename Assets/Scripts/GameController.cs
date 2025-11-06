@@ -8,7 +8,12 @@ public class GameController : MonoBehaviour
 
     //Using custom time to control flow, mainly for pausing 
     public float gameTime { get; set; }
-    public int level;
+    public string level = "Level1";
+
+    //Audio, vol: 0 -> 1
+    public AudioSource audioSource;
+    public float volume;
+    
     
     void Awake()
     {
@@ -27,7 +32,8 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-
+        audioSource.Play();
+        SceneManager.LoadScene("MainMenu");
     }
 
     void Update()
@@ -39,8 +45,16 @@ public class GameController : MonoBehaviour
     //Scene Control
     public void LoadScene(string str)
     {
+        level = "Level1";
         SceneManager.LoadScene(str);
+        
     }
+    public void LoadScene()
+    {
+        Debug.Log("LoadScene level=" + level);
+        SceneManager.LoadScene(level);
+    }
+
 
     //Clear functions to manage gameTime
     public void pauseGame()
@@ -51,4 +65,25 @@ public class GameController : MonoBehaviour
     {
         gameTime = 1f;
     }
+
+    //Sound
+    public void setVolume(float x)
+    {
+        AudioListener.volume = x;
+    }
+
+    public void saveVolume()
+    {
+        PlayerPrefs.SetFloat("volume", volume);
+    }
+
+    public void resetPlayerPref()
+    {
+
+    }
+    public void savePlayerPref()
+    {
+        
+    }
+
 }
