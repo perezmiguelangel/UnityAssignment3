@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,6 +22,9 @@ public class PlayerController : MonoBehaviour
     private bool grounded;
     public BoxCollider2D groundCheck;
     public LayerMask groundMask;
+    public SpriteRenderer spriteRenderer;
+    public Animator animator;
+
     
 
     private void OnEnable()
@@ -52,7 +56,21 @@ public class PlayerController : MonoBehaviour
         moveX = moveDir.x;
         moveY = moveDir.y;
 
-        //if(jump.triggered){ jumpTriggered = true; }
+
+        if (moveX > 0)
+        {
+            spriteRenderer.flipX = false;
+            animator.SetFloat("playerSpeed", moveX);
+        }
+        else if (moveX < 0)
+        {
+            spriteRenderer.flipX = true;
+            animator.SetFloat("playerSpeed", Mathf.Abs(moveX));
+        }
+        else
+        {
+            animator.SetFloat("playerSpeed", 0);
+        }
 
     }
 
@@ -64,26 +82,31 @@ public class PlayerController : MonoBehaviour
 
         //GroundCheck & Jump Logic
         CheckGround();
-        if (grounded)
+        if (grounded && rb.linearVelocityY == 0)
         {
-            jumpsRemaining = 1;
-           // Debug.Log("grounded");
+            jumpsRemaining = 2;
+            animator.SetBool("isJumping", false);
         }
 
     }
-    
+
     //Function handles jump input action
     void onJumpPerformed(InputAction.CallbackContext context)
     {
-        if(jumpsRemaining > 0)
+        if (jumpsRemaining > 0)
         {
-            Debug.Log("Entered Jump: JR=" + jumpsRemaining + " jumpForce=" + jumpForce);
+            //Debug.Log("Entered Jump: JR=" + jumpsRemaining + " jumpForce=" + jumpForce);
             --jumpsRemaining;
             //Resetting Velocity to add better feeling second jump
             rb.linearVelocityY = 0;
             rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
+            //Animation
+            animator.SetBool("isJumping", true);
+            animator.SetTrigger("jumpTrigger");
         }
     }
+
+ 
 
     //Handles event subscription, good practice
     void OnDestroy()
@@ -94,6 +117,6 @@ public class PlayerController : MonoBehaviour
     //GroundCheck, Citation Youtube Vid:
     void CheckGround()
     {
-        grounded = Physics2D.OverlapArea(groundCheck.bounds.min, groundCheck.bounds.max, groundMask) != null;
+        grounded = Physics2D.OverlapArea(groundCheck.bounds.min, groundCheck.bounds.max, groundMask) != null; 
     }
 }
