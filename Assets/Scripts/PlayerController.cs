@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         jumpForce = 6f;
         jump.performed += onJumpPerformed;
+        attack.performed += onAttackPerformed;
     }
 
     void Update()
@@ -59,12 +61,14 @@ public class PlayerController : MonoBehaviour
 
         if (moveX > 0)
         {
-            spriteRenderer.flipX = false;
+            //spriteRenderer.flipX = false;
+            transform.localScale = new Vector3(1, 1, 1);
             animator.SetFloat("playerSpeed", moveX);
         }
         else if (moveX < 0)
         {
-            spriteRenderer.flipX = true;
+            //spriteRenderer.flipX = true;
+            transform.localScale = new Vector3(-1, 1, 1);
             animator.SetFloat("playerSpeed", Mathf.Abs(moveX));
         }
         else
@@ -106,12 +110,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
- 
+    void onAttackPerformed(InputAction.CallbackContext context)
+    {
+        animator.SetTrigger("attackTrigger");
+    }
+
+    //To handle collisions
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
 
     //Handles event subscription, good practice
     void OnDestroy()
     {
         jump.performed -= onJumpPerformed;
+        attack.performed -= onAttackPerformed;
+
     }
 
     //GroundCheck, Citation Youtube Vid:

@@ -66,7 +66,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.44806808}
+  m_Offset: {x: 0.6975748, y: -1.3167633}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,7 +76,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.12214565}
+  m_Size: {x: 1.8862277, y: 0.15884519}
   m_EdgeRadius: 0
 --- !u!1 &7601058913896612048
 GameObject:
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be278b4c2b1d56408ea827e2e999816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  playerSpeed: 5
+  playerSpeed: 7
   playerHealth: 5
   rb: {fileID: 9161142058029502037}
   playerMovement:
@@ -292,6 +292,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  spriteRenderer: {fileID: 7026266889013335330}
+  animator: {fileID: 2822720462606589123}
 --- !u!50 &9161142058029502037
 Rigidbody2D:
   serializedVersion: 5
@@ -353,7 +355,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.005830109}
+  m_Offset: {x: 1.0046834, y: 0.0643661}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -363,7 +365,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.9883398}
+  m_Size: {x: 1.3246582, y: 2.6555004}
   m_EdgeRadius: 0
 --- !u!95 &2822720462606589123
 Animator:
