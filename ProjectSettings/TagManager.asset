@@ -11,6 +11,10 @@ TagManager:
   - JumpText
   - Spike
   - Save
+  - Enemy
+  - Sword
+  - BossTrigger
+  - BossTriggerDeath
   layers:
   - Default
   - TransparentFX
@@ -18,8 +22,8 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
+  - Boss
+  - Player
   - 
   - 
   - 

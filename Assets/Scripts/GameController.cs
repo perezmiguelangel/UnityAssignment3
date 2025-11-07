@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     //Audio, vol: 0 -> 1
     public AudioSource audioSource;
     public float volume;
+    public bool isPaused;
+    public Vector3 playerPosition;
     
     
     void Awake()
@@ -28,6 +30,7 @@ public class GameController : MonoBehaviour
         }
 
         gameTime = 1f;
+        isPaused = false;
     }
 
     void Start()
@@ -60,15 +63,18 @@ public class GameController : MonoBehaviour
     public void pauseGame()
     {
         gameTime = 0f;
+        isPaused = true;
     }
     public void resumeGame()
     {
         gameTime = 1f;
+        isPaused = false;
     }
 
     //Sound
     public void setVolume(float x)
     {
+        volume = x;
         AudioListener.volume = x;
     }
 
@@ -79,15 +85,24 @@ public class GameController : MonoBehaviour
 
     public void resetPlayerPref()
     {
-
+        volume = 0.5f;
+        setVolume(volume);
+        playerPosition = new Vector3(-8, -3, 0);
+        savePlayerPref();
     }
     public void savePlayerPref()
     {
-
+        PlayerPrefs.SetFloat("Volume", volume);
+        PlayerPrefs.SetFloat("PosX", playerPosition.x);
+        PlayerPrefs.SetFloat("PosY", playerPosition.y);
+        PlayerPrefs.Save();
     }
     public void loadPlayerPref()
     {
-        
+        volume = PlayerPrefs.GetFloat("Volume");
+        playerPosition.x = PlayerPrefs.GetFloat("PosX");
+        playerPosition.y = PlayerPrefs.GetFloat("PosY");
+        setVolume(volume);
     }
 
 }

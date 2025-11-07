@@ -18,7 +18,7 @@ public class MainMenuController : MonoBehaviour
     public Button saveButton;
     public Button backButton;
 
-
+    
 
 
     void Start()
@@ -40,42 +40,51 @@ public class MainMenuController : MonoBehaviour
     public void onStartClicked()
     {
         //Loads saved game level
+        AudioController.audioInstance.playClip("button");
         GameController.gcInstance.LoadScene();
     }
     public void onLoadClicked()
     {
+        AudioController.audioInstance.playClip("button");
         GameController.gcInstance.loadPlayerPref();
     }
     public void onSettingsClicked()
     {
+        AudioController.audioInstance.playClip("button");
         mainCanvas.gameObject.SetActive(false);
         settingsCanvas.gameObject.SetActive(true);
     }
     public void onExitClicked()
     {
+        AudioController.audioInstance.playClip("button");
         Application.Quit();
     }
 
     public void onVolumeChange(float x)
     {
+        AudioController.audioInstance.playClip("button");
         GameController.gcInstance.setVolume(x);
         Debug.Log("vol:" + x);
     }
     public void onSoundResetClicked()
     {
+        AudioController.audioInstance.playClip("button");
         GameController.gcInstance.setVolume(0.5f);
         GameController.gcInstance.saveVolume();
     }
     public void onResetClicked()
     {
+        AudioController.audioInstance.playClip("button");
         GameController.gcInstance.resetPlayerPref();
     }
     public void onSaveClicked()
     {
+        AudioController.audioInstance.playClip("button");
         GameController.gcInstance.savePlayerPref();
     }
     public void onBackClicked()
     {
+        AudioController.audioInstance.playClip("button");
         settingsCanvas.gameObject.SetActive(false);
         mainCanvas.gameObject.SetActive(true);
     }
