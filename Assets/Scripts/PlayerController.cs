@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public InputAction jump;
     public InputAction attack;
     public InputAction pause;
+    public InputAction save;
+    public bool canSave;
     Vector2 moveDir = Vector2.zero;
     private float moveX;
     private float moveY;
@@ -26,8 +28,10 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Animator animator;
     public BoxCollider2D swordCollider;
-    
 
+    public UIController uiController;
+    public Color flashColor = Color.red;
+    public Color originalColor;
     
 
     private void OnEnable()
@@ -36,6 +40,7 @@ public class PlayerController : MonoBehaviour
         jump.Enable();
         attack.Enable();
         pause.Enable();
+        save.Enable();
     }
     private void OnDisable()
     {
@@ -43,6 +48,7 @@ public class PlayerController : MonoBehaviour
         jump.Disable();
         attack.Disable();
         pause.Disable();
+        save.Disable();
     }
 
 
@@ -50,6 +56,9 @@ public class PlayerController : MonoBehaviour
     {
         jump.performed += onJumpPerformed;
         attack.performed += onAttackPerformed;
+        save.performed += onSavePerformed;
+        originalColor = spriteRenderer.color;
+        canSave = false;
     }
 
     void Update()
@@ -128,10 +137,69 @@ public class PlayerController : MonoBehaviour
         swordCollider.enabled = false;
     }
 
+    void onSavePerformed(InputAction.CallbackContext context)
+    {
+        if (canSave)
+        {
+            Debug.Log("Saved!");
+        }
+        else
+        {
+            Debug.Log("Failed to save!");
+        }
+    }
+
+
     //To handle collisions
     void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.CompareTag("MoveText"))
+        {
+            uiController.SetActive(false, "MoveText");
+            uiController.SetActive(true, "JumpText");
+        }
+        if (collision.CompareTag("JumpText"))
+        {
+            uiController.SetActive(false, "JumpText");
+        }
+        if (collision.CompareTag("Spike"))
+        {
+            //Player hit spike
+            PlayerDamaged();
+            rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
+            //maybe add blinking if damaged
+        }
+        if (collision.CompareTag("Save"))
+        {
+            canSave = true;
+        }
+    }
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Save"))
+        {
+            canSave = false;
+        }
+    }
+
+    void PlayerDamaged()
+    {
+        playerHealth--;
+        StartCoroutine(Flash());
+        Debug.Log("Enterdamage");
+
+    }
+    IEnumerator Flash()
+    {
+        int i = 2;
+        for(int j = 0; j < i; ++j)
+        {
+            spriteRenderer.color = flashColor;
+            yield return new WaitForSecondsRealtime(0.1f);
+            spriteRenderer.color = originalColor;
+            yield return new WaitForSecondsRealtime(0.1f);
+            Debug.Log("flash");
+        }
     }
 
     //Handles event subscription, good practice

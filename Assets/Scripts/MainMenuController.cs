@@ -6,6 +6,7 @@ public class MainMenuController : MonoBehaviour
     //Main
     public Canvas mainCanvas;
     public Button startButton;
+    public Button loadButton;
     public Button settingsButton;
     public Button exitButton;
 
@@ -24,6 +25,7 @@ public class MainMenuController : MonoBehaviour
     {
         settingsCanvas.gameObject.SetActive(false);
         startButton.onClick.AddListener(onStartClicked);
+        loadButton.onClick.AddListener(onLoadClicked);
         settingsButton.onClick.AddListener(onSettingsClicked);
         exitButton.onClick.AddListener(onExitClicked);
 
@@ -39,6 +41,10 @@ public class MainMenuController : MonoBehaviour
     {
         //Loads saved game level
         GameController.gcInstance.LoadScene();
+    }
+    public void onLoadClicked()
+    {
+        GameController.gcInstance.loadPlayerPref();
     }
     public void onSettingsClicked()
     {

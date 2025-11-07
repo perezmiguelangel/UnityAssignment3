@@ -6,6 +6,11 @@ TagManager:
   tags:
   - PlayerSword
   - Ground
+  - Text
+  - MoveText
+  - JumpText
+  - Spike
+  - Save
   layers:
   - Default
   - TransparentFX

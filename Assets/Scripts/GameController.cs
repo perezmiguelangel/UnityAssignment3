@@ -83,6 +83,10 @@ public class GameController : MonoBehaviour
     }
     public void savePlayerPref()
     {
+
+    }
+    public void loadPlayerPref()
+    {
         
     }
 
